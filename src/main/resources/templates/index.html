@@ -34,15 +34,15 @@
             <!-- 登录显示名字（下拉菜单），未登录显示登录按钮-->
             <ul class="nav navbar-nav navbar-right">
                 <!-- thymeleaf 的 th语法,if bool-->
-                <li class="dropdown" th:if="${session.githubUser != null}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.githubUser.getName()}"><span class="caret"></span></a>
+                <li class="dropdown" th:if="${session.User != null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.User.getName()}"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
-                <li th:if="${session.githubUser == null}">
+                <li th:if="${session.User == null}">
                     <!-- GitHub登录 -->
                     <a href="https://github.com/login/oauth/authorize?client_id=0e77bd341a4bed30d47e&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
                 </li>

@@ -16,7 +16,6 @@
 
 ## 脚本
 ```sql
--- auto-generated definition
 create table USER
 (
     ID           int auto_increment,
@@ -28,7 +27,6 @@ create table USER
     constraint USER_PK
         primary key (ID)
 );
-
 ```
 
 

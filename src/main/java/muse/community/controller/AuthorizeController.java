@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -27,14 +28,14 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String clientUri;
 
-    @Autowired
-    private UserMapper userMapper;
+    @Autowired(required = false) //默认情况下要求依赖对象必须存在
+    private UserMapper userMapper; //只有UserMapper才能访问数据库
 
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request){ //spring会自动把上下文中的request放到这
+                           HttpServletResponse response){ //spring会自动把上下文中的response放到这
         //接收两个参数
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
@@ -44,20 +45,24 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
 
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser githubUser = githubProvider.getGithubUser(accessToken); //githubUser需存入数据库，并写入session
+        GithubUser githubUser = githubProvider.getGithubUser(accessToken); //githubUser需存入数据库，并写入session和cookies
 
         if(githubUser != null){
             //githubUser需存入数据库类user
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());//UUID.randomUUID().toString()是javaJDK提供的一个自动生成主键的方法。UUID全局唯一标识符
+            String token = UUID.randomUUID().toString(); //生成token
+            user.setToken(token);//UUID.randomUUID().toString()是javaJDK提供的一个自动生成主键的方法。UUID全局唯一标识符
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
 
-            //登录成功，写cookies和session
-            request.getSession().setAttribute("githubUser", githubUser);
+            //登录成功，写session
+            //request.getSession().setAttribute("User", githubUser);写在IndexController中
+
+            //写cookies
+            response.addCookie(new Cookie("token",token)); //代替默认的JSESSIONID
 
             //return "redirect:index";//真正跳转到index
             return "redirect:/";
