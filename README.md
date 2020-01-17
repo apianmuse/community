@@ -5,8 +5,31 @@
 + [Spring文档](ttps://spring.io/guides)
 + [Spring web](ttps://spring.io/guides/gs/serving-web-content/)
 + [Github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
-+ [Visual Paradigm](https://www.visual-paradigm.com/cn/)
 + [OkHttp](https://square.github.io/okhttp/)
 + [Meaven库](https://mvnrepository.com/)
++ [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)
++ [H2](http://www.h2database.com/html/main.html)
++ [MyBatis spring boot](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+
+## 工具
++ [Visual Paradigm](https://www.visual-paradigm.com/cn/)
+
+## 脚本
+```sql
+-- auto-generated definition
+create table USER
+(
+    ID           int auto_increment,
+    ACCOUNT_ID   VARCHAR(100),
+    NAME         VARCHAR(50),
+    TOKEN        CHAR,
+    GMT_CREATE   BIGINT,
+    GMT_MODIFIED BIGINT,
+    constraint USER_PK
+        primary key (ID)
+);
+
+```
+
 
 
