@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/community.css">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
+<!-- 导航栏 -->
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -19,7 +21,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">MUSE社区</span>
             </button>
-            <a class="navbar-brand" href="#">MUSE社区</a>
+            <a class="navbar-brand" href="/">MUSE社区</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -34,8 +36,12 @@
             <!-- 登录显示名字（下拉菜单），未登录显示登录按钮-->
             <ul class="nav navbar-nav navbar-right">
                 <!-- thymeleaf 的 th语法,if bool-->
+                <li th:if="${session.User != null}">
+                    <a href="/publish">发布</a>
+                </li>
                 <li class="dropdown" th:if="${session.User != null}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.User.getName()}"><span class="caret"></span></a>
+<!--                    <img th:src="${session.User.avatarUrl}" alt="touxaing" style="width: 30px;height: 30px"/>-->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.User.getName()}"><span class="caret"> </span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
@@ -50,5 +56,36 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+
+<!-- 问题发布 -->
+<div class="container-fluid main">
+    <div class="row">
+        <!--左边栏-->
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <h2>
+                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现
+            </h2>
+            <hr>
+            <!--问题列表-->
+            <div class="media" th:each="question : ${questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object image-rounded" th:src="${question.user.avatarUrl}" alt="touxaing">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}">深入浅出Spring Boot</h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 • <span th:text="${question.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
+                </div>
+            </div>
+        </div>
+        <!--右边栏-->
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <h3>热门话题</h3>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

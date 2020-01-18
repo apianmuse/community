@@ -10,10 +10,12 @@
 + [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)
 + [H2](http://www.h2database.com/html/main.html)
 + [MyBatis spring boot](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
-                                                        
++ [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values)
+
 ## 工具
 + [Visual Paradigm](https://www.visual-paradigm.com/cn/)
 + [Flyway](https://flywaydb.org/getstarted/firststeps/mavencreate)
++ [Lombok](https://projectlombok.org/setup/maven)
 
 ## 脚本
 ```sql
