@@ -5,6 +5,7 @@ import muse.community.model.User;
 
 @Data
 public class QuestionDTO {
+    //首页需要显示的关于问题的信息
     private Integer id;
     private String title;
     private String description;
