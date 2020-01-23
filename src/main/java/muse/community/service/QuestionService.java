@@ -2,6 +2,8 @@ package muse.community.service;
 
 import muse.community.dto.PaginationDTO;
 import muse.community.dto.QuestionDTO;
+import muse.community.exception.CustomizeErrorCode;
+import muse.community.exception.CustomizeException;
 import muse.community.mapper.QuestionMapper;
 import muse.community.mapper.UserMapper;
 import muse.community.model.Question;
@@ -101,6 +103,10 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.getById(id);
+        //问题不存在异常
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.findById(question.getCreator());
@@ -116,8 +122,9 @@ public class QuestionService {
             questionMapper.create(question);
         }else {
             //修改问题
-            question.setGmtModified(question.getGmtCreate());
+            question.setGmtModified(System.currentTimeMillis());
             questionMapper.update(question);
+            //此处还应判断是否更新成功（因为有可能页面中修改问题时，另一个页面删除了此问题），但update返回类型void，还不知如何判断？
         }
     }
 }

@@ -20,7 +20,7 @@ public class UserService {
             userMapper.insert(user);
         }else{
             //更新
-            dbuser.setGmtModified(user.getGmtCreate());
+            dbuser.setGmtModified(System.currentTimeMillis());
             dbuser.setToken(user.getToken());
             dbuser.setName(user.getName());
             dbuser.setAvatarUrl(user.getAvatarUrl());

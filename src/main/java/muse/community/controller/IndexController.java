@@ -1,9 +1,7 @@
 package muse.community.controller;
 
 import muse.community.dto.PaginationDTO;
-import muse.community.dto.QuestionDTO;
 import muse.community.mapper.UserMapper;
-import muse.community.model.User;
 import muse.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-
 @Controller
 public class IndexController {
-
-    @Autowired(required = false)
-    private UserMapper userMapper; //只有UserMapper才能访问数据库
 
     @Autowired
     private QuestionService questionService;
