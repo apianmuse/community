@@ -21,7 +21,7 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name="id") Integer id,
+    public String edit(@PathVariable(name="id") Long id,
                        Model model){
         QuestionDTO question = questionService.getById(id);
         model.addAttribute("title",question.getTitle());
@@ -40,7 +40,7 @@ public class PublishController {
     public String doPublish(@RequestParam("title") String title,
                             @RequestParam("description") String description,
                             @RequestParam("tag") String tag,
-                            @RequestParam("id") Integer id,//form post过来的数据
+                            @RequestParam("id") Long id,//form post过来的数据
                             HttpServletRequest request,
                             Model model){ //服务端api传递页面，需要传递的东西放到Model给前端（前端用th语法）
 

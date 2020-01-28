@@ -64,7 +64,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO List(Integer userId, Integer page, Integer size) {
+    public PaginationDTO List(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.countByUserId(userId); //数据库中所有问题数量
 
@@ -101,8 +101,8 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
-        Question question = questionMapper.getById(id);
+    public QuestionDTO getById(Long id) {
+        Question question = questionMapper.getByQuestionId(id);
         //问题不存在异常
         if(question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -119,6 +119,9 @@ public class QuestionService {
             //发布问题
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.create(question);
         }else {
             //修改问题
@@ -126,5 +129,11 @@ public class QuestionService {
             questionMapper.update(question);
             //此处还应判断是否更新成功（因为有可能页面中修改问题时，另一个页面删除了此问题），但update返回类型void，还不知如何判断？
         }
+    }
+
+    //累加阅读数
+    public void incView(Long id) {
+        int viewCount = questionMapper.getByQuestionId(id).getViewCount();
+        questionMapper.updateViewCount(id, viewCount+1);
     }
 }

@@ -1,6 +1,5 @@
 package muse.community.mapper;
 
-import muse.community.dto.QuestionDTO;
 import muse.community.model.Question;
 import org.apache.ibatis.annotations.*;
 
@@ -18,14 +17,20 @@ public interface QuestionMapper {
     Integer count();
 
     @Select("select * from question where creator = #{userId} limit #{offset},#{size}")
-    List<Question> ListByUserId(@Param("userId") Integer userId, @Param("offset") Integer offset, @Param("size") Integer size);
+    List<Question> ListByUserId(@Param("userId") Long userId, @Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select count(1) from question where creator = #{userId}") //count(1)表示第一列
-    Integer countByUserId(@Param("userId") Integer userId);
+    Integer countByUserId(@Param("userId") Long userId);
 
     @Select("select * from question where id = #{id}")
-    Question getById(@Param("id") Integer id);
+    Question getByQuestionId(@Param("id") Long id);
 
     @Update("update question set title=#{title},description=#{description},gmt_modified=#{gmtModified},tag=#{tag} where id=#{id}")
     void update(Question question);
+
+    @Update("update question set view_count=#{viewCount} where id=#{id}")
+    void updateViewCount(@Param("id") Long id, @Param("viewCount") int viewCount);
+
+    @Update("update question set comment_count=#{commentCount} where id=#{id}")
+    void updateCommentCount(@Param("id") Long id, @Param("commentCount") int commentCount);
 }

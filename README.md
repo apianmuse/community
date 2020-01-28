@@ -13,13 +13,15 @@
 + [MyBatis spring boot](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 + [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values)
 + [HTML字符转义](https://www.w3school.com.cn/tags/html_ref_symbols.html)
-
++ [jquery ajax](https://api.jquery.com/jQuery.post/) POST
 ## 工具
-+ [Visual Paradigm](https://www.visual-paradigm.com/cn/)
-+ [Flyway](https://flywaydb.org/getstarted/firststeps/mavencreate)
-+ [Lombok](https://projectlombok.org/setup/maven)
-+ [Live Reload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei/related)
-+ [MyBatis Generator](https://mybatis.org/generator/)
++ [Visual Paradigm](https://www.visual-paradigm.com/cn/) UML建模
++ [Flyway](https://flywaydb.org/getstarted/firststeps/mavencreate) 数据库管理
++ [Lombok](https://projectlombok.org/setup/maven) 自动生成set/get方法
++ [Live Reload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei/related) 自动刷新页面
++ [MyBatis Generator](https://mybatis.org/generator/) 
++ [JSON在线解析](http://jsoneditoronline.org/) 
++ [Postman](https://chrome.google.com/webstore/detail/tabbed-postman-rest-clien/coohjcphdfgbiolnekdpbcijmhambjff) 测试接口
 
 ## 脚本
 ```sql

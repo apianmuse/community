@@ -2,13 +2,21 @@ package muse.community.exception;
 
 public enum CustomizeErrorCode implements ICustomizeErrorCode {
     //用接口是便于不同业务类型的erroe code统一格式（业务类型错误、系统类型错误）
-    //错误码
+    //错误码（不同code做不同处理）
 
-    QUESTION_NOT_FOUND("你找的问题不在了，换个试试？");
+    QUESTION_NOT_FOUND(2001,"你找的问题不在了，换个试试？"),
+    TARGET_PARAM_NOT_FOUNT(2002,"未选中任何问题或评论进行回复"),
+    NO_LOGIN(2003,"当前操作需登录，请登录后重试"),
+    SYS_ERROR(2004,"服务器冒烟"),
+    TARGET_PARAM_WRONG(2005,"评论错误或不存在"),
+    COMMENT_NOT_FOUND(2006,"回复的评论不在了，换个试试？"),
+    COMMENT_IS_EMPTY(2007,"输入内容不能为空");
 
+    private Integer code;
     private String message;
 
-    CustomizeErrorCode(String message) {
+    CustomizeErrorCode(Integer code, String message) {
+        this.code = code;
         this.message = message;
     }
 
@@ -17,4 +25,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
         return message;
     }
 
+    @Override
+    public Integer getCode() {
+        return code;
+    }
 }
