@@ -5,9 +5,11 @@ import muse.community.exception.CustomizeErrorCode;
 import muse.community.exception.CustomizeException;
 //评论后，后端传给前端的信息
 @Data
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code; //状态码
     private String message;
+    private T data; //泛型
+
 
     public static ResultDTO errorOf(Integer code,String message){
         ResultDTO resultDTO = new ResultDTO();
@@ -30,4 +32,11 @@ public class ResultDTO {
         return resultDTO;
     }
 
+    public static <T> ResultDTO okOf(T t){
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("请求成功");
+        resultDTO.setData(t);
+        return resultDTO;
+    }
 }

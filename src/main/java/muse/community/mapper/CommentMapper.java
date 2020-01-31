@@ -10,9 +10,9 @@ public interface CommentMapper {
     @Insert("insert into comment (parent_id,type,content,commentator,gmt_create,gmt_modified,like_count) values (#{parentId},#{type},#{content},#{commentator},#{gmtCreate},#{gmtModified},#{likeCount})")
     void create(Comment comment);
 
-    @Select("select * from comment where parent_id = #{parentId}")
-    Comment getByCommentId(@Param("parentId") Long parentId);
+    @Select("select * from comment where id = #{id}")
+    Comment getByCommentId(@Param("id") Long id);
 
-    @Select("select * from comment where parent_id = #{parentId} and type=1 Order By GMT_CREATE Desc")
-    List<Comment> getByQuestionIdInQuestion(Long id);
+    @Select("select * from comment where parent_id = #{id} and type=#{type} Order By GMT_CREATE Desc")
+    List<Comment> getCommentsByIdAndType(@Param("id") Long id, @Param("type") Integer type);
 }

@@ -50,29 +50,57 @@
                     <span th:text="${question.commentCount}"></span> 个回复
                 </h4>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
+                <!-- 一级评论 -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
-                    <div class="media"> <!--头像-->
-                        <div class="media-left">
+                    <div class="media">
+                        <div class="media-left"><!--头像-->
                             <a href="#">
-                                <img class="media-object img-rounded" th:src="${comment.user.avatarUrl}" alt="touxaing">
+                                <img class="media-object img-rounded" th:src="${comment.user.avatarUrl}" alt="touxiang">
                             </a>
                         </div>
-                        <div class="media-body">
+                        <div class="media-body" th:id="${'comment-body-'+comment.id}">
                             <h6 class="media-heading">
                                 <span th:text="${comment.user.name}"></span>
                             </h6>
                             <div th:text="${comment.content}"></div>
                             <div class="menu">
-                                <span class="glyphicon glyphicon-thumbs-up icon" aria-hidden="true"></span>
-                                <span class="glyphicon glyphicon-comment icon" aria-hidden="true"></span>
-                                <span class="pull-right"
-                                      th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                                <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}" onclick="collapseComments(this)"></span>
+                                <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                            </div>
+                            <!-- 二级评论 -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments" th:id="${'comment-'+comment.id}">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
+                                    <div class="media">
+                                        <div class="media-left"><!--头像-->
+                                            <a href="#">
+                                                <img class="media-object img-rounded" th:src="${comment.user.avatarUrl}" alt="touxaing">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h6 class="media-heading">
+                                                <span th:text="${comment.user.name}"></span>
+                                            </h6>
+                                            <div th:text="${comment.content}"></div>
+                                            <div class="menu">
+                                                <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--二级回复框-->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <input type="text" class="form-control" placeholder="评论一下..." th:id="${'input-'+comment.id}">
+                                    <button type="button" class="btn btn-success pull-right" onclick="comment(this)" th:data-id="${comment.id}">评论回复</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--回复框-->
+            <!--一级回复框-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>
                     提交回复
@@ -94,7 +122,7 @@
                     </div>
                     <input type="hidden" id="question_id" th:value="${question.id}"><!-- hidden点击按钮提交时把value属性传递过来但不在页面展示-->
                     <textarea class="form-control comment" rows="6" id="comment_content"></textarea>
-                    <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button><!-- 点击回复时触发hidden-->
+                    <button type="button" class="btn btn-success btn-comment" onclick="post()">回复问题</button><!-- 点击回复时触发hidden-->
                 </div>
             </div>
         </div>
@@ -120,7 +148,6 @@
                 <h4>相关问题</h4>
             </div>
         </div>
-
     </div>
 </div>
 

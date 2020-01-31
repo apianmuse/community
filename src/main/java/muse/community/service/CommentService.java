@@ -1,6 +1,5 @@
 package muse.community.service;
 
-import muse.community.dto.CommentCreateDTO;
 import muse.community.dto.CommentDTO;
 import muse.community.enums.CommentTypeEnum;
 import muse.community.exception.CustomizeErrorCode;
@@ -34,6 +33,9 @@ public class CommentService {
     @Autowired(required = false)
     private UserMapper userMapper;
 
+    /*
+    * 添加评论
+    * */
     @Transactional
     public void insert(Comment comment) {
         //未登录异常判断
@@ -66,8 +68,11 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
-        List<Comment> comments = commentMapper.getByQuestionIdInQuestion(id);
+    /*
+    * 获取一级或二级评论
+    * */
+    public List<CommentDTO> getCommentsByIdAndType(Long id, CommentTypeEnum type) {
+        List<Comment> comments = commentMapper.getCommentsByIdAndType(id,type.getType());
         if(comments.size() == 0){
             return new ArrayList<>();
         }

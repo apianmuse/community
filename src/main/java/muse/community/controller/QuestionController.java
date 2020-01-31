@@ -2,6 +2,7 @@ package muse.community.controller;
 
 import muse.community.dto.CommentDTO;
 import muse.community.dto.QuestionDTO;
+import muse.community.enums.CommentTypeEnum;
 import muse.community.service.CommentService;
 import muse.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Long id, Model model){
         QuestionDTO questionDTO = questionService.getById(id);//问题详情
-        List<CommentDTO> comments = commentService.listByQuestionId(id);//评论列表
+        List<CommentDTO> comments = commentService.getCommentsByIdAndType(id, CommentTypeEnum.QUESTION);//一级评论列表
         questionService.incView(id);//累加阅读数
         model.addAttribute("question",questionDTO);
         model.addAttribute("comments",comments);

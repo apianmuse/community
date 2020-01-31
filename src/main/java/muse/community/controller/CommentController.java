@@ -1,20 +1,19 @@
 package muse.community.controller;
 
 import muse.community.dto.CommentCreateDTO;
+import muse.community.dto.CommentDTO;
 import muse.community.dto.ResultDTO;
+import muse.community.enums.CommentTypeEnum;
 import muse.community.exception.CustomizeErrorCode;
 import muse.community.model.Comment;
 import muse.community.model.User;
 import muse.community.service.CommentService;
-import org.h2.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -53,4 +52,10 @@ public class CommentController {
         //@ResponseBody把对象自动序列化成json发给前端
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){
+        List<CommentDTO> commentsDTOs =commentService.getCommentsByIdAndType(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentsDTOs); //除了返回okOf还要返回二级评论的List
+    }
 }
