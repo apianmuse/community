@@ -12,6 +12,7 @@ public class Comment {
     private Long gmtCreate;
     private Long gmtModified;
     private Long likeCount; //点赞数
+    private Integer commentCount; //评论回复数
 }
 
 

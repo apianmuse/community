@@ -55,6 +55,11 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.create(comment);
+            //累加二级评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            int commentCount =commentMapper.getByCommentId(parentComment.getId()).getCommentCount();
+            commentMapper.incCommentCount(parentComment.getId(), commentCount+1);
         }else {
             //回复问题
             Question question = questionMapper.getByQuestionId(comment.getParentId());
@@ -62,9 +67,9 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentMapper.create(comment);
-            //累加评论数
+            //累加一级评论数
             int commentCount = questionMapper.getByQuestionId(comment.getParentId()).getCommentCount();
-            questionMapper.updateCommentCount(comment.getParentId(), commentCount+1);
+            questionMapper.incCommentCount(comment.getParentId(), commentCount+1);
         }
     }
 

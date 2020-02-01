@@ -64,7 +64,6 @@ public class AuthorizeController {
 
             //写cookies
             response.addCookie(new Cookie("token",token)); //代替默认的JSESSIONID
-
             //return "redirect:index";//真正跳转到index
             return "redirect:/";
         }else{

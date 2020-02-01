@@ -14,4 +14,5 @@ public class CommentDTO {
     private Long gmtModified;
     private Long likeCount; //点赞数
     private User user;
+    private Integer commentCount;
 }

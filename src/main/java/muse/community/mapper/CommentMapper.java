@@ -15,4 +15,7 @@ public interface CommentMapper {
 
     @Select("select * from comment where parent_id = #{id} and type=#{type} Order By GMT_CREATE Desc")
     List<Comment> getCommentsByIdAndType(@Param("id") Long id, @Param("type") Integer type);
+
+    @Update("update comment set comment_count=#{commentCount} where id=#{id}")
+    void incCommentCount(@Param("id") Long id, @Param("commentCount") int commentCount);
 }

@@ -122,7 +122,8 @@ public class QuestionService {
             question.setViewCount(0);
             question.setLikeCount(0);
             question.setCommentCount(0);
-            questionMapper.create(question);
+            System.out.println(question);
+            questionMapper.create(question);//////////有问题
         }else {
             //修改问题
             question.setGmtModified(System.currentTimeMillis());
