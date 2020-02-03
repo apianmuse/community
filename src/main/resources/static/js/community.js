@@ -121,7 +121,7 @@ function collapseComments(e) {
             subComments.addClass("in");
             e.classList.add("active"); //展开时图标显示颜色
         }else{
-            //获取数据
+            //获取数据,画页面
             $.getJSON("/comment/" + id, function (data) {
                 $.each(data.data.reverse(), function (index, comment) {
                     var mediaLeftElement = $("<div/>", {
@@ -163,4 +163,27 @@ function collapseComments(e) {
         }
     }
 
+}
+
+/*
+* 显示标签弹框
+* */
+function showSelectTag() {
+    //此处不能用失去焦点，因为里面还有点击事件？
+    $("#select-tag").show();
+}
+
+/*
+* 添加标签
+* */
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if(previous.indexOf(value) == -1){
+        if(previous){
+            $("#tag").val(previous+','+value);
+        }else{
+            $("#tag").val(value);
+        }
+    }
 }

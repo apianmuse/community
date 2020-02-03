@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -25,6 +26,9 @@ public class QuestionService {
     @Autowired(required = false)
     private UserMapper userMapper;
 
+    /*
+    * 首页展示问题
+    * */
     public PaginationDTO List(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.count(); //数据库中所有问题数量
@@ -64,6 +68,9 @@ public class QuestionService {
         return paginationDTO;
     }
 
+    /*
+    * 我的问题
+    * */
     public PaginationDTO List(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.countByUserId(userId); //数据库中所有问题数量
@@ -132,9 +139,34 @@ public class QuestionService {
         }
     }
 
-    //累加阅读数
+    /*
+    * 累加阅读数
+    * */
     public void incView(Long id) {
         int viewCount = questionMapper.getByQuestionId(id).getViewCount();
         questionMapper.updateViewCount(id, viewCount+1);
+    }
+
+    /*
+    * 获取相关问题
+    * */
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        String tags = queryDTO.getTag();
+        if( tags == null || tags ==""){
+            return new ArrayList<>();
+        }
+        String regexTags = tags.replace(',','|');
+        System.out.println(regexTags);
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexTags);
+        List<Question> questions = questionMapper.selectRelated(question);  //从数据库根据标签找相关问题
+        //把Question变为QuestionDTO
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

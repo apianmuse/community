@@ -10,7 +10,7 @@ public interface QuestionMapper {
     @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tag) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void create(Question question);
 
-    @Select("select * from question limit #{offset},#{size}")
+    @Select("select * from question Order By GMT_CREATE Desc limit #{offset},#{size}")
     List<Question> List(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
 
     @Select("select count(1) from question") //count(1)表示第一列
@@ -33,4 +33,8 @@ public interface QuestionMapper {
 
     @Update("update question set comment_count=#{commentCount} where id=#{id}")
     void incCommentCount(@Param("id") Long id, @Param("commentCount") int commentCount);
+
+    //select id,TITLE,TAG from question where TAG regexp '标|签'and id != 2
+    @Select("select * from question where tag regexp #{tag} and id!=#{id}")
+    List<Question> selectRelated(Question question);
 }

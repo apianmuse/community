@@ -21,6 +21,9 @@ public class CommentController {
     @Autowired(required = false)
     private CommentService commentService;
 
+    /*
+    * 发布评论
+    * */
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST) //用JSON方式传参
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,//@RequestBody自动反序列化json，把对应的key赋值到DTO
@@ -52,6 +55,9 @@ public class CommentController {
         //@ResponseBody把对象自动序列化成json发给前端
     }
 
+    /*
+    * 展示二级评论
+    * */
     @ResponseBody
     @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
     public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){

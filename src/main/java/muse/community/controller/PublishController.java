@@ -1,5 +1,6 @@
 package muse.community.controller;
 
+import muse.community.cache.TagCache;
 import muse.community.dto.QuestionDTO;
 import muse.community.model.Question;
 import muse.community.model.User;
@@ -20,6 +21,9 @@ public class PublishController {
     @Autowired(required = false)
     private QuestionService questionService;
 
+    /*
+    * 编辑问题
+    * */
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name="id") Long id,
                        Model model){
@@ -28,14 +32,22 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());////
+        model.addAttribute("tags", TagCache.get()); //获取库中所有标签
         return "publish";
     }
 
+    /*
+    * 发布问题页面
+    * */
     @GetMapping("/publish")
-    public String publish(){
+    public String publish( Model model){
+        model.addAttribute("tags", TagCache.get()); //获取库中所有标签
         return "publish";
     }
 
+    /*
+    * 提交问题
+    * */
     @PostMapping("/publish")
     public String doPublish(@RequestParam("title") String title,
                             @RequestParam("description") String description,
@@ -47,6 +59,7 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        model.addAttribute("tags", TagCache.get()); //获取库中所有标签
 
         //验证非空前后端都要设置，前端放在js
         if(title == null || title == ""){
@@ -59,6 +72,11 @@ public class PublishController {
         }
         if(tag == null || tag == ""){
             model.addAttribute("error","标签不能为空");
+            return "publish";
+        }
+        String invalid = TagCache.filterInvalid(tag);
+        if(invalid == null || invalid == ""){
+            model.addAttribute("error","输入非法标签");
             return "publish";
         }
 
